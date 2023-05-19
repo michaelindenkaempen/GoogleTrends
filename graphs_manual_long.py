@@ -1,4 +1,9 @@
 
+#Overview: This script creates the graphs from the manually downloaded data, for the long timeseries (2005 - today).
+#which are for example discussed in the following thread: https://github.com/GeneralMills/pytrends/issues/577
+#The script imports files from /csv_manual_long and exports the graphs to the /graphs_manual_long folder.
+
+
 #This section imports the packages that are requires to run this script.
 import pytrends
 import pandas as pd
@@ -25,6 +30,7 @@ for region_i in region_code:
     df.set_index('date', inplace=True)
     df['Calima'] = df['Calima'].replace('<1', '0')
     df['Calima'] = df['Calima'].astype(int)
+    plt.style.use('ggplot')
     df.plot(y = 'Calima', legend = None,  color='black', figsize=(10, 6))
     plt.title(region_info.loc[region_info['region_code'] == region_i, 'region_name'].values[0])
     plt.xlabel('')

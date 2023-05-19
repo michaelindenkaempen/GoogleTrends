@@ -1,6 +1,8 @@
 
-#Overview: This script creates the graphs from the manually downloaded data. I chose to also download the files manually, due to data inconsistencies,
-#which are for example discussed in the following thread: https://github.com/GeneralMills/pytrends/issues/577
+#Overview: This script creates the graphs for the comparison between the 'calima' and 'contaminacion' search interest, for year 2005 - 2014.
+#I chose to manually download the data due to data issues which are discussed in the following
+# thread: https://github.com/GeneralMills/pytrends/issues/577 . The script imports files from /csv_manual_comparisonand exports the graphs
+#to the /graphs_manual_comparison folder.
 
 
 #This section imports the packages that are requires to run this script.
@@ -31,6 +33,7 @@ for region_i in region_code:
     df['calima'] = df['calima'].astype(int)
     df['contaminacion'] = df['contaminacion'].replace('<1', '0')
     df['contaminacion'] = df['contaminacion'].astype(int)
+    plt.style.use('ggplot')
     df.plot(y= ['calima','contaminacion'],  color=['black','red'], figsize=(10, 6))
     plt.title(region_info.loc[region_info['region_code'] == region_i, 'region_name'].values[0])
     plt.xlabel('')
@@ -38,7 +41,7 @@ for region_i in region_code:
     plt.savefig(main_directory + 'graphs_manual_comparison/' + region_info.loc[region_info['region_code'] == region_i, 'region_name'].values[0] + '_m_comp.pdf', format="pdf")
     plt.close('all')
 
-#Make graph for spain and export it to /graphs
+#Make graph for Spain and export it to /graphs
 df = pd.read_csv(main_directory + 'csv_manual_comparison/Spain_m_comp.csv', skiprows= 1)
 df.rename(columns={'Monat': 'date', 'Calima: (Spanien)': 'calima', 'contaminacion: (Spanien)':'contaminacion'}, inplace=True)
 df['date'] = pd.to_datetime(df['date'])

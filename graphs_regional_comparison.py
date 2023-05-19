@@ -1,6 +1,7 @@
 
 #Overview: The purpose of this script is to create the barplots for the city- and regional level comparison. The folder
 #csv_manual_regional_comparison contains the manually downloaded datasets obtained from the 'Google Trends' website.
+#The script imports csv's from the csv_manual_regional_comparison folder and exports the graph to the /graphs_manual_regional_comparison folder.
 
 
 #This section imports the packages that are requires to run this script.
