@@ -9,8 +9,6 @@ from matplotlib import pyplot as plt
 #Change the variable 'main_directory' to your local export path:
 main_directory  = '/Users/michaelindenkampen/PycharmProjects/GoogleTrends/'
 
-#Set the relevant keyword, e.g. 'Calima'
-search_term = 'Calima'
 
 #To access the regional data using the pytrends package, the user needs to use the relevant geocode.
 #Google geocodes can be obtained from: https://www.serpwow.com/docs/search-api/reference/google-trends-geos
@@ -27,7 +25,7 @@ for region_i in region_code:
     df.set_index('date', inplace=True)
     df['Calima'] = df['Calima'].replace('<1', '0')
     df['Calima'] = df['Calima'].astype(int)
-    df.plot(y = search_term, legend = None,  color='black', figsize=(10, 6))
+    df.plot(y = 'Calima', legend = None,  color='black', figsize=(10, 6))
     plt.title(region_info.loc[region_info['region_code'] == region_i, 'region_name'].values[0])
     plt.xlabel('')
     plt.ylabel('Search Interest')
@@ -40,7 +38,7 @@ df.rename(columns={'Monat': 'date', 'Calima: (Spanien)': 'Calima'}, inplace=True
 df['date'] = pd.to_datetime(df['date'])
 df.set_index('date', inplace=True)
 plt.style.use('ggplot')
-df.plot(y= search_term, legend=None,  color='black', figsize=(10, 6))
+df.plot(y= 'Calima', legend=None,  color='black', figsize=(10, 6))
 plt.title('Spain')
 plt.xlabel('')
 plt.ylabel('Search Interest')

@@ -1,4 +1,8 @@
 
+#Overview: This script creates the graphs from the manually downloaded data. I chose to also download the files manually, due to data inconsistencies,
+#which are for example discussed in the following thread: https://github.com/GeneralMills/pytrends/issues/577
+
+
 #This section imports the packages that are requires to run this script.
 import pytrends
 import pandas as pd
@@ -9,8 +13,6 @@ from matplotlib import pyplot as plt
 #Change the variable 'main_directory' to your local export path:
 main_directory  = '/Users/michaelindenkampen/PycharmProjects/GoogleTrends/'
 
-#Set the relevant keyword, e.g. 'Calima'
-search_term = 'Calima'
 
 #To access the regional data using the pytrends package, the user needs to use the relevant geocode.
 #Google geocodes can be obtained from: https://www.serpwow.com/docs/search-api/reference/google-trends-geos

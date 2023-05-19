@@ -1,10 +1,15 @@
 
+#Overview: This script can be used to obtain timeseries data from the Google Trends website. I use the inofficial 'pytrends' package
+#(documentation can be found at: https://pypi.org/project/pytrends). To use this script the user needs to specify a keyword e.g. 'Calima'.
+#The script will fetch the relevant timeseries data and create the respective graphs in the /graphs folde. The csv files are stored in
+# /csv_export folder.
+
+
 #This section imports the packages that are requires to run this script.
 import pytrends
 import pandas as pd
 from pytrends.request import TrendReq
 from matplotlib import pyplot as plt
-
 
 
 #Change the variable 'main_directory' to your local export path:
@@ -13,12 +18,15 @@ main_directory  = '/Users/michaelindenkampen/PycharmProjects/GoogleTrends/'
 #Set the relevant keyword, e.g. 'Calima'
 search_term = 'Calima'
 
+
+
 #To access the regional data using the pytrends package, the user needs to use the relevant geocode.
 #Google geocodes can be obtained from: https://www.serpwow.com/docs/search-api/reference/google-trends-geos
 region_code = ['AN','AR','AS','IB','PV','CN','CB','CL','CM','CT','EX','GA','RI','MD','MC','NC','VC','CE','ML']
 region_name = ['Andalusia','Aragon','Asturias','Balearic Islands','Basque Country','Canary Islands','Cantabria','Castile and Leon','Castile-La Mancha','Catalonia','Extremadura','Galicia','La Rioja','Community of Madrid','Region of Murcia','Navarre','Valencian Community','Ceuta','Melila']
 region_info = pd.DataFrame({'region_code': region_code, 'region_name': region_name})
 
+#Set up pytrends package:
 pytrend = TrendReq()
 
 
