@@ -52,6 +52,7 @@ del df
 #Make regional graphs and export them to /graphs.
 for region_i in region_code:
     df = pd.read_csv(main_directory + 'csv_export/' + region_i +'.csv', parse_dates= ['date'], index_col = ['date'])
+    plt.style.use('ggplot')
     df.plot(y = search_term, legend = None,  color='black', figsize=(10, 6))
     plt.title(region_info.loc[region_info['region_code'] == region_i, 'region_name'].values[0])
     plt.xlabel('')
