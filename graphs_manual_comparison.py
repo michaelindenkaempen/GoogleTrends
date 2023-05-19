@@ -1,3 +1,5 @@
+
+#This section imports the packages that are requires to run this script.
 import pytrends
 import pandas as pd
 from pytrends.request import TrendReq
