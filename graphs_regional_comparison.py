@@ -15,7 +15,7 @@ main_directory  = '/Users/michaelindenkampen/PycharmProjects/GoogleTrends/'
 
 
 #Make regional comparison graph for spain and export it to /graphs_manual_regional_comparison. I drop regions with no active search interest.
-df = pd.read_csv(main_directory + 'csv_manual_regional_comparison/Spain_comparison_regions.csv', skiprows= 1)
+df = pd.read_csv(main_directory + 'csv_manual_regional_comparison/Spain_comparison_regions_en.csv', skiprows= 1)
 df.rename(columns={df.columns[0]: 'region', df.columns[1]: 'calima'}, inplace=True)
 
 #To rescale the data, such that the largest item after the canary islands is scaled to index value  = 100, I drop the value for the canary islands,
@@ -25,6 +25,7 @@ df = df.drop(df.index[16])
 df = df.drop(df.index[16])
 df['calima'] = df['calima'].astype(int)
 df['calima'] = (df['calima'] / df['calima'].iloc[0]) * 100
+
 
 #This section creates the final barplot.
 plt.style.use('ggplot')
