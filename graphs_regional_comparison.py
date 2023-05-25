@@ -64,3 +64,4 @@ plt.savefig(main_directory + 'graphs_manual_regional_comparison/Spain_cities_com
 
 plt.close('all')
 del df
+
