@@ -115,6 +115,7 @@ plt.show()
 
 plt.savefig(main_directory + 'graphs_manual_regional_comparison/Spain_regions_comparison_map.pdf', format="pdf")
 
+plt.close('all')
 
 del map
 del df
