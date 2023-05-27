@@ -37,7 +37,7 @@ df['date'] = pd.to_datetime(df['date'])
 df.set_index('date', inplace=True)
 df['calima'] = df['calima'].replace('<1', '0')
 df['calima'] = df['calima'].astype(int)
-df['geocode'] = 'Spain'
+df['geocode'] = 'ES'
 df.to_stata(main_directory + 'dta_export/' + 'Spain' '.dta')
 
 
@@ -59,7 +59,7 @@ df['date'] = pd.to_datetime(df['date'])
 df.set_index('date', inplace=True)
 df['calima'] = df['calima'].replace('<1', '0')
 df['calima'] = df['calima'].astype(int)
-df['geocode'] = 'Spain'
+df['geocode'] = 'ES'
 df.to_stata(main_directory + 'dta_manual/' + 'Spain' '_m.dta')
 
 
@@ -82,7 +82,7 @@ df['date'] = pd.to_datetime(df['date'])
 df.set_index('date', inplace=True)
 df['calima'] = df['calima'].replace('<1', '0')
 df['calima'] = df['calima'].astype(int)
-df['geocode'] = 'Spain'
+df['geocode'] = 'ES'
 df.to_stata(main_directory + 'dta_manual_comparison/' + 'Spain' '_m_comp.dta')
 
 
@@ -105,5 +105,6 @@ df['date'] = pd.to_datetime(df['date'])
 df.set_index('date', inplace=True)
 df['calima'] = df['calima'].replace('<1', '0')
 df['calima'] = df['calima'].astype(int)
-df['geocode'] = 'Spain'
+df['geocode'] = 'ES'
 df.to_stata(main_directory + 'dta_manual_long/' + 'Spain' '_m_long.dta')
+

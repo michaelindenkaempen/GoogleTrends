@@ -99,7 +99,8 @@ map = boundary_shp.set_index('ID_1').join(df.set_index('ID_1'))
 map = map.dropna(subset=['calima'])
 
 # Plot
-fig, ax = plt.subplots(1, 1)
+fig, ax = plt.subplots(1, 1, figsize = (12,12))
+
 map.plot(column='calima', ax=ax, legend=False, cmap='Blues')
 
 for idx, row in map.iterrows():
@@ -107,13 +108,17 @@ for idx, row in map.iterrows():
     value = round(row['calima'])
     ax.text(centroid.x, centroid.y, str(value), ha='center', va='center', weight='bold')
 
+
 # Remove the axis
 ax.axis('off')
 plt.title('Search Interest - Autonomous Communities')
-plt.subplots_adjust(left=0.005, right=0.995, bottom=0.005, top=0.9)
+
+plt.subplots_adjust(left=0, right=1, bottom=0, top=0.95)  # adjust as needed
+plt.savefig(main_directory + 'graphs_manual_regional_comparison/Spain_regions_comparison_map.pdf', format="pdf")
 plt.show()
 
-plt.savefig(main_directory + 'graphs_manual_regional_comparison/Spain_regions_comparison_map.pdf', format="pdf")
+
+plt.close('all')
 
 del map
 del df
