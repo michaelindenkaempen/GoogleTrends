@@ -1,5 +1,5 @@
 
-
+#Overview: This script reads in the csv files and converts them to .dta files. The script also creates "master" files, that contain all regions.
 
 #This section imports the packages that are requires to run this script.
 import pytrends
@@ -138,6 +138,9 @@ master_manual_long.to_stata(main_directory + 'dta_master_files/' + 'master_m_lon
 del master_manual_long
 
 print(master_manual_comparison)
+
+
+
 
 #Create master stata file that contains all variables:
 master_manual_comparison.rename(columns={master_manual_comparison.columns[0]: 'calima_comparison', master_manual_comparison.columns[1]: 'contaminacion_comparison', master_manual_comparison.columns[2]: 'geocode'}, inplace=True)
