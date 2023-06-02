@@ -12,6 +12,7 @@ import geopandas as gpd
 import numpy as np
 import seaborn as sns
 import matplotlib.colors as colors
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 #Setup: To create the graphs, please enter your local directory below.
 #Change the variable 'main_directory' to your local export path:
@@ -298,6 +299,16 @@ boundary_shp.plot(ax=ax, color='darkgrey', edgecolor='grey',  legend = True)
 
 df_geo.plot( ax=ax, marker='o',color= cmap.to_rgba(df_geo['calima']),edgecolor='black', linewidth=0.5, markersize=30)
 
+#plot colorbar
+divider = make_axes_locatable(ax)
+cax = divider.append_axes("left", size="2.5%", pad=0.05)
+cbar = fig.colorbar(cmap, cax=cax, orientation='vertical')
+cbar.set_ticks([vmin, vmax])
+cbar.ax.tick_params(color='black', labelcolor='black')
+
+for l in cbar.ax.yaxis.get_ticklabels():
+    l.set_weight('bold')
+
 plt.subplots_adjust(left=0, right=1, bottom=0, top=0.95)
 plt.savefig(main_directory + 'graphs_manual_regional_comparison/Spain_cities_comparison_map.pdf', format="pdf")
 plt.show()
@@ -334,6 +345,15 @@ plt.title('Search Interest - Cities')
 map.plot(ax=ax, color='darkgrey', edgecolor='grey',  legend = True)
 df_geo.plot( ax=ax, marker='o',color= cmap.to_rgba(df_geo['calima']), edgecolor='black', linewidth=0.5,  markersize=30)
 
+# plot colorbar
+divider = make_axes_locatable(ax)
+cax = divider.append_axes("left", size="2.5%", pad=0.05)
+cbar = fig.colorbar(cmap, cax=cax, orientation='vertical')
+cbar.set_ticks([vmin, vmax])
+cbar.ax.tick_params(color='black', labelcolor='black')
+
+for l in cbar.ax.yaxis.get_ticklabels():
+    l.set_weight('bold')
 
 # create an inset ax in the bottom right corner, with a width of 30% of the main ax
 ax_ins = inset_axes(ax, width="30%", height="30%", loc='lower right')
