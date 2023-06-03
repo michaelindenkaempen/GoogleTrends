@@ -150,12 +150,39 @@ master_export.rename(columns={master_export.columns[0]: 'calima_export', master_
 master = master_manual_comparison.reset_index().merge(master_manual.reset_index(), how='inner', on=['geocode', 'date'])
 master = master.merge(master_export.reset_index(), how='inner', on=['geocode', 'date'])
 
-#Move geocode column to the end of the dataframe (entirely cosmetic)
+
+#Create scaled variables:
+
+#Read in regional data / I drop regions with no active search interest.
+df = pd.read_csv(main_directory + 'csv_manual_regional_comparison/Spain_comparison_regions_en.csv', skiprows= 1)
+df.rename(columns={df.columns[0]: 'region', df.columns[1]: 'scaling_factor'}, inplace=True)
+
+#To rescale the data, such that the largest item after the canary islands is scaled to index value  = 100, I drop the value for the canary islands,
+#aswell as the two regions without any observation. I then rescale the entire column.
+df = df.drop(df.index[17])
+df = df.drop(df.index[17])
+df['scaling_factor'] = df['scaling_factor'].astype(int)
+
+region_info = region_info.rename(columns={region_info.columns[0]: 'geocode', region_info.columns[1]: 'region'})
+df = df.merge(region_info, how = 'left', on = ['region'])
+
+
+master = master.merge(df, how = 'left', on = ['geocode'])
+
+master['calima_comparison_scaled'] = master['calima_comparison'] * master['scaling_factor'] / 100
+master['contaminacion_comparison_scaled'] = master['contaminacion_comparison'] * master['scaling_factor'] / 100
+master['calima_export_scaled'] = master['calima_export'] * master['scaling_factor'] / 100
+master['calima_manual_scaled'] = master['calima_manual'] * master['scaling_factor'] / 100
+
+
+
+#Move geocode and region column to the end of the dataframe (entirely cosmetic)
 cols = list(master.columns)
 cols.append(cols.pop(cols.index('geocode')))
+cols.append(cols.pop(cols.index('region')))
 master = master[cols]
 
-master.set_index('date').to_stata(main_directory  + 'dta_master_files/master_all_variables.dta')
+master.set_index('date').to_stata(main_directory + 'dta_master_files/master_all_variables.dta')
 
 
 del master_manual_comparison
