@@ -385,7 +385,7 @@ plt.close('all')
 
 
 
-#Make city comparison graph for spain and export it to /graphs_manual_regional_comparison. The bar plot displays the search interest for the top 25 cities in spain by search interest.
+#Make city comparison graph for spain (excluding the canary islands) and export it to /graphs_manual_regional_comparison. The bar plot displays the search interest for the top 25 cities in spain by search interest.
 #I drop cities with no active search interest.
 
 df = df_geo
