@@ -383,3 +383,27 @@ plt.show()
 
 plt.close('all')
 
+
+
+#Make city comparison graph for spain and export it to /graphs_manual_regional_comparison. The bar plot displays the search interest for the top 25 cities in spain by search interest.
+#I drop cities with no active search interest.
+
+df = df_geo
+
+#I select top 25 cities by search interest in the dataset.
+df = df.iloc[:25]
+
+#This section creates the final barplot.
+df['calima'] = df['calima'].astype(int)
+plt.style.use('ggplot')
+plt.figure(figsize=(25, 10))
+plt.xticks(rotation=75)
+plt.bar(df['city'],df['calima'], color = 'navy' )
+plt.title('Search Interest - Top 25 Cities (excl. Canary Islands)')
+plt.ylabel('Search Interest')
+plt.subplots_adjust(left=0.05, right=0.95, bottom=0.25, top=0.9)
+plt.savefig(main_directory + 'graphs_manual_regional_comparison/Spain_cities_comparison_without_CI.pdf', format="pdf")
+
+
+plt.close('all')
+del df
