@@ -21,7 +21,7 @@ master_export = pd.DataFrame()
 
 #Import csv's and save them as .dta files
 for region_i in region_code:
-    df = pd.read_csv(main_directory + 'csv_export/' + region_i +'.csv', skiprows = 1)
+    df = pd.read_csv(main_directory + 'csv_export/' + region_i +'.csv')
     df.rename(columns={df.columns[0]: 'date', df.columns[1]: 'calima'}, inplace=True)
     df = df.drop(df.columns[2], axis = 1)
     df['date'] = pd.to_datetime(df['date'])
@@ -33,7 +33,7 @@ for region_i in region_code:
     df.to_stata(main_directory + 'dta_export/' + region_i + '.dta')
 
 
-df = pd.read_csv(main_directory + 'csv_export/' + 'Spain' +'.csv', skiprows = 1)
+df = pd.read_csv(main_directory + 'csv_export/' + 'Spain' +'.csv')
 df.rename(columns={df.columns[0]: 'date', df.columns[1]: 'calima'}, inplace=True)
 df = df.drop(df.columns[2], axis=1)
 df['date'] = pd.to_datetime(df['date'])
@@ -162,6 +162,7 @@ df.rename(columns={df.columns[0]: 'region', df.columns[1]: 'scaling_factor'}, in
 df = df.drop(df.index[17])
 df = df.drop(df.index[17])
 df['scaling_factor'] = df['scaling_factor'].astype(int)
+df['region'] = df['region'].replace('Castile and León', 'Castile and Leon')
 
 region_info = region_info.rename(columns={region_info.columns[0]: 'geocode', region_info.columns[1]: 'region'})
 df = df.merge(region_info, how = 'left', on = ['region'])
@@ -182,6 +183,10 @@ cols.append(cols.pop(cols.index('geocode')))
 cols.append(cols.pop(cols.index('region')))
 master = master[cols]
 
+#Drop region column
+master = master.drop('region', axis = 1)
+
+#Set date as the index and export the dataframe to the .dta format.
 master.set_index('date').to_stata(main_directory + 'dta_master_files/master_all_variables.dta')
 
 
