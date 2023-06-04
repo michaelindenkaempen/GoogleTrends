@@ -140,7 +140,7 @@ for idx, row in map.iterrows():
 
 # Remove the axis
 ax.axis('off')
-plt.title('Search Interest - Autonomous Communities')
+plt.title('Search Interest - Autonomous Communities (excl. Canary Islands)')
 
 plt.subplots_adjust(left=0, right=1, bottom=0, top=0.95)  # adjust as needed
 plt.savefig(main_directory + 'graphs_manual_regional_comparison/Spain_regions_comparison_map.pdf', format="pdf")
