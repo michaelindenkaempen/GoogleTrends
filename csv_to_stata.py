@@ -135,9 +135,6 @@ master_manual_long = pd.concat([master_manual_long, df])
 df.to_stata(main_directory + 'dta_manual_long/' + 'Spain' '_m_long.dta')
 
 master_manual_long.to_stata(main_directory + 'dta_master_files/' + 'master_m_long.dta')
-del master_manual_long
-
-print(master_manual_comparison)
 
 
 
@@ -157,8 +154,7 @@ master = master.merge(master_export.reset_index(), how='inner', on=['geocode', '
 df = pd.read_csv(main_directory + 'csv_manual_regional_comparison/Spain_comparison_regions_en.csv', skiprows= 1)
 df.rename(columns={df.columns[0]: 'region', df.columns[1]: 'scaling_factor'}, inplace=True)
 
-#To rescale the data, such that the largest item after the canary islands is scaled to index value  = 100, I drop the value for the canary islands,
-#aswell as the two regions without any observation. I then rescale the entire column.
+
 df = df.drop(df.index[17])
 df = df.drop(df.index[17])
 df['scaling_factor'] = df['scaling_factor'].astype(int)
@@ -190,7 +186,41 @@ master = master.drop('region', axis = 1)
 master.set_index('date').to_stata(main_directory + 'dta_master_files/master_all_variables.dta')
 
 
+
+#I then create rescaled version of the 'long' version.
+
+#Create scaled variables:
+
+#Read in regional data / I drop regions with no active search interest.
+df = pd.read_csv(main_directory + 'csv_manual_regional_comparison/spain_comparison_regions_long_en.csv', skiprows= 1)
+df.rename(columns={df.columns[0]: 'region', df.columns[1]: 'scaling_factor'}, inplace=True)
+
+
+
+df['scaling_factor'] = df['scaling_factor'].astype(int)
+df['region'] = df['region'].replace('Castile and León', 'Castile and Leon')
+df['region'] = df['region'].replace('Melilla', 'Melila')
+
+
+region_info = region_info.rename(columns={region_info.columns[0]: 'geocode', region_info.columns[1]: 'region'})
+df = df.merge(region_info, how = 'left', on = ['region'])
+
+
+master_manual_long = master_manual_long.reset_index().merge(df, how = 'left', on = ['geocode'])
+
+master_manual_long['calima_scaled'] = master_manual_long['calima'] * master_manual_long['scaling_factor'] / 100
+
+#Drop region column
+master_manual_long = master_manual_long.drop('region', axis = 1)
+
+#Set date as the index and export the dataframe to the .dta format.
+master_manual_long.set_index('date').to_stata(main_directory + 'dta_master_files/master_m_long.dta')
+
+
+
+#Clear datasets from memory
+
 del master_manual_comparison
 del master_manual
 del master_export
-
+del master_manual_long
