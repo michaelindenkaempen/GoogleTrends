@@ -148,24 +148,32 @@ master = master_manual_comparison.reset_index().merge(master_manual.reset_index(
 master = master.merge(master_export.reset_index(), how='inner', on=['geocode', 'date'])
 
 
+
+
+#This section of the code creates the scaled variants of the variables. The variables are scaled by the regional search interest for the relevant time period (01.01.2005 - 31.12.2014 for the shorter period, 01.01.2005 - today (19.05.2023) for the 'long' period).
+
 #Create scaled variables:
 
-#Read in regional data / I drop regions with no active search interest.
+#Read in regional data: The regional comparison data serves as the scaling factor. The regional comparison data is the same that is used for the regional maps.
 df = pd.read_csv(main_directory + 'csv_manual_regional_comparison/Spain_comparison_regions_en.csv', skiprows= 1)
 df.rename(columns={df.columns[0]: 'region', df.columns[1]: 'scaling_factor'}, inplace=True)
 
+# I drop regions with no observations for the regional search interest. (Ceuta and Melilla)
+df = df.drop(df.index[17])
+df = df.drop(df.index[17])
 
-df = df.drop(df.index[17])
-df = df.drop(df.index[17])
+#I convert the scaling value to an integer value.
 df['scaling_factor'] = df['scaling_factor'].astype(int)
+
+#String cleaning:
 df['region'] = df['region'].replace('Castile and León', 'Castile and Leon')
 
+#I merge the regional data/ the scaling factor values with the master dataset:
 region_info = region_info.rename(columns={region_info.columns[0]: 'geocode', region_info.columns[1]: 'region'})
 df = df.merge(region_info, how = 'left', on = ['region'])
-
-
 master = master.merge(df, how = 'left', on = ['geocode'])
 
+#Compute scaled versions of the variables:
 master['calima_comparison_scaled'] = master['calima_comparison'] * master['scaling_factor'] / 100
 master['contaminacion_comparison_scaled'] = master['contaminacion_comparison'] * master['scaling_factor'] / 100
 master['calima_export_scaled'] = master['calima_export'] * master['scaling_factor'] / 100
@@ -179,10 +187,10 @@ cols.append(cols.pop(cols.index('geocode')))
 cols.append(cols.pop(cols.index('region')))
 master = master[cols]
 
-#Drop region column
+#Drop region column (cosmetic)
 master = master.drop('region', axis = 1)
 
-#Set date as the index and export the dataframe to the .dta format.
+#Set the date variable as the index and export the dataframe to the .dta format.
 master.set_index('date').to_stata(main_directory + 'dta_master_files/master_all_variables.dta')
 
 
@@ -191,23 +199,24 @@ master.set_index('date').to_stata(main_directory + 'dta_master_files/master_all_
 
 #Create scaled variables:
 
-#Read in regional data / I drop regions with no active search interest.
+#Read in regional data: I drop regions with no active search interest. The regional comparison data serves as the scaling factor. The regional comparison data is the same that is used for the regional maps.
 df = pd.read_csv(main_directory + 'csv_manual_regional_comparison/spain_comparison_regions_long_en.csv', skiprows= 1)
 df.rename(columns={df.columns[0]: 'region', df.columns[1]: 'scaling_factor'}, inplace=True)
 
 
-
+#I convert the scaling value to an integer value.
 df['scaling_factor'] = df['scaling_factor'].astype(int)
+
+#String cleaning:
 df['region'] = df['region'].replace('Castile and León', 'Castile and Leon')
 df['region'] = df['region'].replace('Melilla', 'Melila')
 
-
+#I merge the regional data/ the scaling factor values with the master dataset:
 region_info = region_info.rename(columns={region_info.columns[0]: 'geocode', region_info.columns[1]: 'region'})
 df = df.merge(region_info, how = 'left', on = ['region'])
-
-
 master_manual_long = master_manual_long.reset_index().merge(df, how = 'left', on = ['geocode'])
 
+#Compute scaled versions of the variables:
 master_manual_long['calima_scaled'] = master_manual_long['calima'] * master_manual_long['scaling_factor'] / 100
 
 #Drop region column
